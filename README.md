@@ -87,6 +87,11 @@ sudolex/
 
 ## Licence
 
-**Source Available** — Usage personnel gratuit.  
-Usage commercial interdit sans accord écrit préalable.  
+Licence Sudolex
+- Usage personnel : gratuit et libre
+- Modification : autorisée pour usage personnel
+- Redistribution : autorisée sans modification
+- Usage commercial : INTERDIT sans accord écrit de l'auteur
+- Vente : INTERDITE sous toute forme
+© 2026 Sudolex / Lescogriffe 
 © 2026 Sudolex · sudolex.com
