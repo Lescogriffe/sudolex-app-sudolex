@@ -10,9 +10,230 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# ── WATERMARK & PROTECTION IP ─────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════════════════════
+import hashlib, sqlite3
+from pathlib import Path
+from datetime import date
+
+# ── [W1] Canaris de base de données ───────────────────────────────────────────
+_CANARY_ENTRIES = [
+    {
+        "id": "CANARY_SLX_001",
+        "reference": "Cass. civ. 3e, 14 févr. 2019, n°17-28.441",
+        "domaine": "droit_immobilier",
+        "resume": (
+            "La clause de renonciation anticipée à l'action en nullité d'un bail commercial "
+            "ne peut être opposée au preneur de bonne foi lorsque le vice affecte le consentement initial."
+        ),
+        "tags": "bail_commercial,nullité,vice_consentement",
+    },
+    {
+        "id": "CANARY_SLX_002",
+        "reference": "CE, 9 oct. 2021, n°431-602-SL",
+        "domaine": "droit_administratif",
+        "resume": (
+            "L'administration ne peut invoquer le délai de forclusion lorsque l'acte litigieux "
+            "n'a pas été régulièrement notifié au sens de l'article L.112-8 du CRPA."
+        ),
+        "tags": "délai,forclusion,notification,CRPA",
+    },
+    {
+        "id": "CANARY_SLX_003",
+        "reference": "Cass. soc., 7 mars 2023, n°21-19.800",
+        "domaine": "droit_travail",
+        "resume": (
+            "Le salarié dont le contrat est suspendu pour inaptitude ne peut se voir opposer "
+            "la prescription biennale avant l'expiration d'un délai courant à compter "
+            "de la notification de la décision médicale définitive (art. L1237-19-14 C. trav.)."
+        ),
+        "tags": "inaptitude,prescription,contrat_travail,L1237",
+    },
+]
+
+def _slx_inject_canaries(db_path: str):
+    """Injecte les fausses jurisprudences au premier lancement. Silencieux."""
+    try:
+        conn = sqlite3.connect(db_path)
+        cur  = conn.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS slx_jurisprudence (
+                id TEXT PRIMARY KEY,
+                reference TEXT,
+                domaine TEXT,
+                resume TEXT,
+                tags TEXT
+            )
+        """)
+        for e in _CANARY_ENTRIES:
+            cur.execute(
+                "INSERT OR IGNORE INTO slx_jurisprudence (id,reference,domaine,resume,tags) VALUES (?,?,?,?,?)",
+                (e["id"], e["reference"], e["domaine"], e["resume"], e["tags"])
+            )
+        conn.commit()
+        conn.close()
+    except Exception:
+        pass  # Silencieux — jamais visible utilisateur
+
+# ── [W2] Tatouage algorithmique invisible ──────────────────────────────────────
+_ZWS  = "\u200b"   # Zero-Width Space  → bit 0
+_ZWJ  = "\u200d"   # Zero-Width Joiner → bit 1
+_SIG_BITS = "".join(bin(ord(c))[2:].zfill(8) for c in "SLX971")
+_SIG_MARKER = "".join(_ZWS if b == "0" else _ZWJ for b in _SIG_BITS)
+
+def _slx_watermark(text: str, interval: int = 90) -> str:
+    """Insère le marqueur binaire invisible 'SLX971' tous les ~interval caractères."""
+    if not text:
+        return text
+    words   = text.split(" ")
+    result  = []
+    counter = 0
+    for word in words:
+        result.append(word)
+        counter += len(word) + 1
+        if counter >= interval:
+            result.append(_SIG_MARKER)
+            counter = 0
+    return " ".join(result)
+
+def _slx_detect_watermark(text: str) -> bool:
+    """Retourne True si la signature Sudolex est présente dans le texte."""
+    return _SIG_MARKER in text
+
+# ── [W3] Easter Egg de propriété ──────────────────────────────────────────────
+_EGG_HASH = hashlib.sha256(b"#SudolexOrigine971").hexdigest()
+
+def _slx_check_egg(text: str, parent=None) -> bool:
+    """Vérifie si le texte est le code secret. Si oui, affiche la preuve de propriété."""
+    if hashlib.sha256(text.strip().encode()).hexdigest() != _EGG_HASH:
+        return False
+    from datetime import datetime as _dt
+    ts  = _dt.now().strftime("%d/%m/%Y %H:%M:%S")
+    msg = QMessageBox(parent)
+    msg.setWindowTitle("⚖️  Propriété Intellectuelle — Sudolex")
+    msg.setText(
+        "<b>Sudolex — Intelligence documentaire locale</b><br><br>"
+        "Auteur original : <b>Fred — Lescogriffe</b><br>"
+        "Année de création : <b>2024</b><br>"
+        f"Vérifié le : {ts}<br><br>"
+        "<i>Ce logiciel est protégé par le droit d'auteur.<br>"
+        "Toute reproduction non autorisée est passible de poursuites.</i>"
+    )
+    msg.setIcon(QMessageBox.Icon.Information)
+    msg.exec()
+    # Log horodaté discret
+    try:
+        log_p = Path.home() / ".config" / "sudolex" / "proof.log"
+        log_p.parent.mkdir(parents=True, exist_ok=True)
+        with open(log_p, "a", encoding="utf-8") as f:
+            f.write(f"[PROOF] {ts} — Sudolex — Fred Lescogriffe — Easter egg déclenché\n")
+    except Exception:
+        pass
+    return True
+
+# ── [W4] Verrou de secours — période d'essai 30 jours ────────────────────────
+#
+#  Logique du fichier .slx_auth (une seule ligne, encodée base64) :
+#    • Pas de fichier         → premier lancement → créer le fichier avec la
+#                               date du jour encodée → période d'essai démarre.
+#    • Fichier = hash maître  → licence définitive activée → illimité.
+#    • Fichier = date encodée → essai en cours → vérifier les 30 jours.
+#    • Fichier falsifié/corrompu → traité comme essai expiré.
+#
+import base64 as _b64
+
+_LICENSE_FILE = Path.home() / ".config" / "sudolex" / ".slx_auth"
+_MASTER_HASH  = hashlib.sha256(b"SLX-971-LESCOGRIFFE-2024").hexdigest()
+_TRIAL_DAYS   = 30
+# Sel interne pour l'encodage de la date — ne pas modifier après déploiement
+_DATE_SALT    = "SLX_TRIAL_ORIGIN_971"
+
+class _SudolexAuthError(RuntimeError):
+    pass
+
+def _slx_encode_install_date(d: date) -> str:
+    """Encode la date d'installation de façon non triviale (sel + base64)."""
+    raw = f"{_DATE_SALT}:{d.isoformat()}"
+    return _b64.urlsafe_b64encode(raw.encode()).decode()
+
+def _slx_decode_install_date(token: str) -> date | None:
+    """Décode et valide le token de date. Retourne None si falsifié."""
+    try:
+        raw = _b64.urlsafe_b64decode(token.encode()).decode()
+        prefix, iso = raw.split(":", 1)
+        if prefix != _DATE_SALT:
+            return None
+        return date.fromisoformat(iso)
+    except Exception:
+        return None
+
+def _slx_verify_license():
+    """
+    Vérifie la licence à chaque démarrage.
+    - Pas de fichier → premier lancement → crée le fichier de période d'essai.
+    - Licence définitive (hash maître) → illimité, aucun compteur.
+    - Date d'essai valide ET ≤ 30 jours → autorisé.
+    - Date d'essai > 30 jours OU token corrompu → _SudolexAuthError.
+    """
+    today = date.today()
+    _LICENSE_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+    # ── Cas 1 : premier lancement — fichier absent ────────────────────────────
+    if not _LICENSE_FILE.exists():
+        token = _slx_encode_install_date(today)
+        try:
+            _LICENSE_FILE.write_text(token, encoding="utf-8")
+        except Exception:
+            pass  # Silencieux — pas de blocage au premier lancement
+        return  # J0 → autorisé
+
+    content = ""
+    try:
+        content = _LICENSE_FILE.read_text(encoding="utf-8").strip()
+    except Exception:
+        pass  # Fichier illisible → traité comme essai expiré
+
+    # ── Cas 2 : licence définitive ────────────────────────────────────────────
+    if content == _MASTER_HASH:
+        return  # Illimité
+
+    # ── Cas 3 : token de période d'essai ─────────────────────────────────────
+    install_date = _slx_decode_install_date(content)
+
+    if install_date is None:
+        # Token falsifié ou corrompu → blocage
+        raise _SudolexAuthError(
+            "Erreur système : 0x4F3 / SLX-IDX-ERR — "
+            "Impossible d'initialiser le moteur d'analyse. "
+            "Vérifiez l'intégrité de l'installation."
+        )
+
+    elapsed = (today - install_date).days
+    if elapsed > _TRIAL_DAYS:
+        raise _SudolexAuthError(
+            "Erreur système : 0x4F3 / SLX-IDX-ERR — "
+            "Impossible d'initialiser le moteur d'analyse. "
+            "Vérifiez l'intégrité de l'installation."
+        )
+    # Essai en cours → autorisé
+
+def _slx_write_license(key: str):
+    """
+    Active la licence définitive sur la machine courante.
+    À appeler une seule fois avec la clé maître :
+        _slx_write_license("SLX-971-LESCOGRIFFE-2024")
+    """
+    if hashlib.sha256(key.encode()).hexdigest() != _MASTER_HASH:
+        raise ValueError("Clé de licence invalide.")
+    _LICENSE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    _LICENSE_FILE.write_text(_MASTER_HASH, encoding="utf-8")
+
+# ── FIN BLOC PROTECTION IP ─────────────────────────────────────────────────────
+
 # ── Version & repo GitHub ─────────────────────────────────────────────────────
 APP_VERSION = "1.0.0"
-GITHUB_REPO = "Lescogriffe/sudolex-app-sudolex"   # ← mettre à jour avec ton vrai repo
+GITHUB_REPO = "sudolex-app/sudolex"   # ← mettre à jour avec ton vrai repo
 
 # ── Palette Dark Premium ─────────────────────────────────────────────────────
 BG      = "#0D1117"; SURFACE = "#161B22"; CARD = "#21262D"
@@ -1427,8 +1648,9 @@ class LogPanel(QWidget):
 
 # ── Result Panel ─────────────────────────────────────────────────────────────
 class ResultPanel(QWidget):
-    ask_question    = pyqtSignal(str, str, list)  # (context, question, history)
+    ask_question    = pyqtSignal(str, str, list)
     global_requested = pyqtSignal()
+    export_requested = pyqtSignal(str)   # 'txt' | 'word' | 'pdf'
     def __init__(self):
         super().__init__()
         # Contenus cumulatifs — remplis pendant l'analyse batch
@@ -1537,9 +1759,9 @@ class ResultPanel(QWidget):
         self.summary_edit.setMarkdown(info.get('summary',''))
         self.analysis_edit.setMarkdown(info.get('analysis',''))
     def set_content(self, t): self.trans_edit.setPlainText(t); self.tabs.setCurrentIndex(0)
-    def set_summary(self, t): self.summary_edit.setMarkdown(t); self.tabs.setCurrentIndex(1)
-    def set_analysis(self, t): self.analysis_edit.setMarkdown(t); self.tabs.setCurrentIndex(2)
-    def set_global(self, t): self.global_edit.setMarkdown(t); self.tabs.setCurrentIndex(3)
+    def set_summary(self, t): self.summary_edit.setMarkdown(_slx_watermark(t)); self.tabs.setCurrentIndex(1)
+    def set_analysis(self, t): self.analysis_edit.setMarkdown(_slx_watermark(t)); self.tabs.setCurrentIndex(2)
+    def set_global(self, t): self.global_edit.setMarkdown(_slx_watermark(t)); self.tabs.setCurrentIndex(3)
     def _request_global(self): self.global_requested.emit()
 
     def reset_accumulated(self):
@@ -1553,20 +1775,21 @@ class ResultPanel(QWidget):
     def append_to_tab(self, tab_key: str, filename: str, text: str):
         """Ajoute du contenu à un onglet avec en-tête fichier — vue cumulative scrollable."""
         sep = f"\n---\n## 📄  {filename}\n\n"
+        wm  = _slx_watermark(text)  # [W2] tatouage appliqué sur chaque bloc batch
         if tab_key == 'content':
-            self._acc_content += sep + text
+            self._acc_content += sep + text          # contenu brut sans tatouage
             self.trans_edit.setPlainText(self._acc_content.lstrip())
             self._scroll_to_bottom(self.trans_edit)
             self.tabs.setCurrentIndex(0)
             self.title_lbl.setText(f"📝  Transcriptions / Extractions — {filename}")
         elif tab_key == 'summary':
-            self._acc_summary += sep + text
+            self._acc_summary += sep + wm
             self.summary_edit.setMarkdown(self._acc_summary.lstrip())
             self._scroll_to_bottom(self.summary_edit)
             self.tabs.setCurrentIndex(1)
             self.title_lbl.setText(f"📋  Résumés — {filename}")
         elif tab_key == 'analysis':
-            self._acc_analysis += sep + text
+            self._acc_analysis += sep + wm
             self.analysis_edit.setMarkdown(self._acc_analysis.lstrip())
             self._scroll_to_bottom(self.analysis_edit)
             self.tabs.setCurrentIndex(2)
@@ -1591,6 +1814,10 @@ class ResultPanel(QWidget):
     def _send_qa(self):
         q = self.qa_input.toPlainText().strip()
         if not q: return
+        # [W3] Easter egg de propriété — code secret → preuve instantanée
+        if _slx_check_egg(q, parent=self):
+            self.qa_input.clear()
+            return
         c = self.get_content()
         if not c and not self._qa_history:
             QMessageBox.warning(self, "Aucun contenu",
@@ -1638,37 +1865,14 @@ class ResultPanel(QWidget):
 
     # Garde la compatibilité avec l'ancien code qui appelait set_qa_answer
     def set_qa_answer(self, t): self.add_qa_answer(t)
+    def get_qa_history(self): return list(self._qa_history)
+
     def _export(self):
-        path, _ = QFileDialog.getSaveFileName(
-            self, "Exporter", f"analyse_{datetime.now():%Y%m%d_%H%M%S}.txt", "Texte (*.txt)")
-        if not path: return
-
-        # Reconstruction de la conversation Q&R depuis l'historique
-        qa_text = ""
-        for msg in self._qa_history:
-            if msg['role'] == 'user':
-                qa_text += f"Question : {msg['content']}\n\n"
-            else:
-                qa_text += f"Réponse : {msg['content']}\n\n{'─'*40}\n\n"
-
-        sections = [
-            ("CONTENU",           self.trans_edit.toPlainText()),
-            ("RESUME",            self.summary_edit.toPlainText()),
-            ("ANALYSE",           self.analysis_edit.toPlainText()),
-            ("SYNTHESE GLOBALE",  self.global_edit.toPlainText()),
-            ("CONVERSATION Q&R",  qa_text.strip()),
-        ]
-        with open(path, 'w', encoding='utf-8') as f:
-            first = True
-            for title, content in sections:
-                if not content.strip():
-                    continue
-                if not first:
-                    f.write("\n\n")
-                f.write(f"{'='*60}\n=== {title} ===\n{'='*60}\n\n")
-                f.write(content)
-                first = False
-        QMessageBox.information(self, "Exporte", f"Sauvegarde :\n{path}")
+        menu = QMenu(self)
+        menu.addAction("📄  Texte (.txt)",  lambda: self.export_requested.emit('txt'))
+        menu.addAction("📝  Word (.docx)",  lambda: self.export_requested.emit('word'))
+        menu.addAction("📑  PDF (.pdf)",    lambda: self.export_requested.emit('pdf'))
+        menu.exec(self.export_btn.mapToGlobal(self.export_btn.rect().bottomLeft()))
 
 
 # ── Domaines juridiques avec prompts experts ────────────────────────────────
@@ -2369,6 +2573,7 @@ class MainWindow(QMainWindow):
         self.result_panel = ResultPanel()
         self.result_panel.ask_question.connect(self._run_qa)
         self.result_panel.global_requested.connect(self._run_global_analysis)
+        self.result_panel.export_requested.connect(self._do_export)
         rl.addWidget(self.result_panel)
 
         body.addWidget(left); body.addWidget(right); body.setSizes([340,940])
@@ -2464,6 +2669,174 @@ class MainWindow(QMainWindow):
                 self.log_panel.log(f"Modele change : {model}", "success")
                 self._save_settings()
 
+    def _do_export(self, fmt):
+        """Dispatch vers le bon format d'export."""
+        exts = {'txt': "Texte (*.txt)", 'word': "Word (*.docx)", 'pdf': "PDF (*.pdf)"}
+        default = f"sudolex_{datetime.now():%Y%m%d_%H%M%S}.{fmt if fmt != 'word' else 'docx'}"
+        path, _ = QFileDialog.getSaveFileName(self, "Exporter", default, exts.get(fmt, ""))
+        if not path: return
+        if fmt == 'txt':   self._export_txt(path)
+        elif fmt == 'word': self._export_word(path)
+        elif fmt == 'pdf':  self._export_pdf(path)
+
+    def _export_txt(self, path):
+        qa_text = ""
+        for msg in self.result_panel.get_qa_history():
+            qa_text += f"{'Question' if msg['role']=='user' else 'Réponse'} : {msg['content']}\n\n{'─'*40}\n\n"
+        sections = [
+            ("CONTENU",           self.result_panel.trans_edit.toPlainText()),
+            ("RESUME",            self.result_panel.summary_edit.toPlainText()),
+            ("ANALYSE",           self.result_panel.analysis_edit.toPlainText()),
+            ("SYNTHESE GLOBALE",  self.result_panel.global_edit.toPlainText()),
+            ("CONVERSATION Q&R",  qa_text.strip()),
+        ]
+        with open(path, 'w', encoding='utf-8') as f:
+            for title, content in sections:
+                if not content.strip(): continue
+                f.write(f"{'='*60}\n=== {title} ===\n{'='*60}\n\n{content}\n\n")
+        QMessageBox.information(self, "Exporté", f"TXT sauvegardé :\n{path}")
+
+    def _export_word(self, path):
+        try:
+            from docx import Document
+            from docx.shared import Pt, RGBColor, Cm
+            from docx.enum.text import WD_ALIGN_PARAGRAPH
+        except ImportError:
+            QMessageBox.critical(self, "Dépendance manquante",
+                "pip install python-docx"); return
+        doc = Document()
+        # Styles
+        doc.styles['Normal'].font.name = 'Arial'
+        doc.styles['Normal'].font.size = Pt(11)
+        BLUE = RGBColor(0x25, 0x63, 0xEB); GRAY = RGBColor(0x71, 0x80, 0x96)
+        # Page de garde
+        h = doc.add_heading('', 0); r = h.add_run('Sudolex')
+        r.font.color.rgb = BLUE; r.font.size = Pt(28)
+        h.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        sub = doc.add_paragraph('Intelligence documentaire locale')
+        sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        sub.runs[0].font.color.rgb = GRAY
+        dp = doc.add_paragraph(f"Rapport généré le {datetime.now().strftime('%d/%m/%Y à %H:%M')}")
+        dp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        dp.runs[0].font.size = Pt(10); dp.runs[0].font.color.rgb = GRAY
+        doc.add_page_break()
+        # Fichiers
+        for p_f, info in self.files.items():
+            content  = info.get('content','').strip()
+            summary  = info.get('summary','').strip()
+            analysis = info.get('analysis','').strip()
+            if not any([content, summary, analysis]): continue
+            h = doc.add_heading(info['name'], 1); h.runs[0].font.color.rgb = BLUE
+            if content:
+                doc.add_heading('Contenu / Transcription', 2)
+                doc.add_paragraph(content)
+            if summary:
+                doc.add_heading('Résumé', 2)
+                doc.add_paragraph(summary)
+            if analysis:
+                doc.add_heading('Analyse approfondie', 2)
+                doc.add_paragraph(analysis)
+            doc.add_page_break()
+        # Synthèse globale
+        g = self.result_panel.global_edit.toPlainText().strip()
+        if g:
+            h = doc.add_heading('Synthèse Globale', 1); h.runs[0].font.color.rgb = BLUE
+            doc.add_paragraph(g); doc.add_page_break()
+        # Q&R
+        qa = self.result_panel.get_qa_history()
+        if qa:
+            h = doc.add_heading('Conversation Q&R', 1); h.runs[0].font.color.rgb = BLUE
+            for msg in qa:
+                role = 'Vous' if msg['role'] == 'user' else 'IA'
+                p = doc.add_paragraph()
+                rb = p.add_run(f'{role} : '); rb.bold = True
+                rb.font.color.rgb = GRAY if role == 'Vous' else BLUE
+                p.add_run(msg['content'])
+        doc.save(path)
+        QMessageBox.information(self, "Exporté", f"Word sauvegardé :\n{path}")
+
+    def _export_pdf(self, path):
+        try:
+            from reportlab.lib.pagesizes import A4
+            from reportlab.platypus import (SimpleDocTemplate, Paragraph,
+                                            Spacer, PageBreak, HRFlowable)
+            from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+            from reportlab.lib.colors import HexColor
+            from reportlab.lib.units import cm
+            import html as html_mod
+        except ImportError:
+            QMessageBox.critical(self, "Dépendance manquante",
+                "pip install reportlab"); return
+
+        BLUE = HexColor('#2563EB'); LBLUE = HexColor('#60A5FA'); GRAY = HexColor('#718096')
+        base = getSampleStyleSheet()
+
+        def S(name, **kw): return ParagraphStyle(name, parent=base['Normal'], **kw)
+        ts = S('T', fontSize=26, textColor=BLUE, alignment=1, spaceAfter=6, leading=32)
+        ss = S('S', fontSize=13, textColor=GRAY, alignment=1, spaceAfter=20)
+        ds = S('D', fontSize=10, textColor=GRAY, alignment=1, spaceAfter=6)
+        h1 = S('H1', fontSize=17, textColor=BLUE, spaceBefore=18, spaceAfter=8, leading=22, fontName='Helvetica-Bold')
+        h2 = S('H2', fontSize=13, textColor=LBLUE, spaceBefore=12, spaceAfter=5, fontName='Helvetica-Bold')
+        bo = S('BO', fontSize=10, leading=14, spaceAfter=8)
+        us = S('US', fontSize=10, textColor=GRAY, leading=13, spaceAfter=4)
+        ai = S('AI', fontSize=10, leading=14, spaceAfter=12)
+
+        def safe(txt, style):
+            t = html_mod.escape(str(txt or '')).replace('\n', '<br/>')
+            try: return Paragraph(t, style)
+            except: return Paragraph(html_mod.escape(str(txt or '')[:500]), style)
+
+        story = [Spacer(1, 3*cm), Paragraph('Sudolex', ts),
+                 Paragraph('Intelligence documentaire locale', ss),
+                 HRFlowable(width='80%', color=BLUE, thickness=1, spaceAfter=16),
+                 Paragraph(f"Rapport — {datetime.now().strftime('%d/%m/%Y à %H:%M')}", ds),
+                 Paragraph(f"Version {APP_VERSION}", ds), PageBreak()]
+
+        for _, info in self.files.items():
+            content  = info.get('content','').strip()
+            summary  = info.get('summary','').strip()
+            analysis = info.get('analysis','').strip()
+            if not any([content, summary, analysis]): continue
+            story += [safe(info['name'], h1),
+                      HRFlowable(width='100%', color=BLUE, thickness=0.5, spaceAfter=8)]
+            if content:  story += [Paragraph('Contenu / Transcription', h2), safe(content, bo)]
+            if summary:  story += [Paragraph('Résumé', h2), safe(summary, bo)]
+            if analysis: story += [Paragraph('Analyse approfondie', h2), safe(analysis, bo)]
+            story.append(PageBreak())
+
+        g = self.result_panel.global_edit.toPlainText().strip()
+        if g:
+            story += [safe('Synthèse Globale', h1),
+                      HRFlowable(width='100%', color=BLUE, thickness=0.5, spaceAfter=8),
+                      safe(g, bo), PageBreak()]
+
+        qa = self.result_panel.get_qa_history()
+        if qa:
+            story += [safe('Conversation Q&R', h1),
+                      HRFlowable(width='100%', color=BLUE, thickness=0.5, spaceAfter=8)]
+            for msg in qa:
+                style = us if msg['role'] == 'user' else ai
+                prefix = 'Vous' if msg['role'] == 'user' else 'IA'
+                story.append(safe(f"{prefix} : {msg['content']}", style))
+
+        def footer(canvas, doc):
+            canvas.saveState()
+            canvas.setFont('Helvetica', 8)
+            canvas.setFillColor(GRAY)
+            canvas.drawString(2*cm, 1*cm, f'Sudolex {APP_VERSION} — sudolex.com')
+            canvas.drawRightString(A4[0]-2*cm, 1*cm, f'Page {doc.page}')
+            canvas.restoreState()
+
+        SimpleDocTemplate(path, pagesize=A4,
+                          rightMargin=2*cm, leftMargin=2*cm,
+                          topMargin=2*cm, bottomMargin=2.5*cm
+                         ).build(story, onFirstPage=footer, onLaterPages=footer)
+        QMessageBox.information(self, "Exporté", f"PDF sauvegardé :\n{path}")
+        """Lance la vérification silencieuse de mise à jour GitHub."""
+        w = UpdateCheckerWorker()
+        w.update_available.connect(self._show_update_banner)
+        w.start(); self._update_worker = w
+
     def _check_update(self):
         """Lance la vérification silencieuse de mise à jour GitHub."""
         w = UpdateCheckerWorker()
@@ -2482,7 +2855,7 @@ class MainWindow(QMainWindow):
     def _load_logo_image(self, mode):
         """Charge le logo PNG selon le thème — fallback texte si fichier absent."""
         base = Path(sys.executable).parent if getattr(sys,'frozen',False) else Path(__file__).parent
-        fname = 'sudolex_logo_white.png' if mode == 'dark' else 'sudolex_logo_black.png'
+        fname = 'sudolex logo white.png' if mode == 'dark' else 'sudolex logo black.png'
         logo_path = base / fname
         if logo_path.exists():
             pm = QPixmap(str(logo_path))
@@ -2962,9 +3335,23 @@ class MainWindow(QMainWindow):
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 def main():
+    # [W4] Vérification licence avant tout chargement UI
+    try:
+        _slx_verify_license()
+    except _SudolexAuthError as e:
+        _app = QApplication(sys.argv)
+        QMessageBox.critical(None, "Erreur système", str(e))
+        sys.exit(1)
+
     app = QApplication(sys.argv)
     app.setApplicationName("FileAnalyzer AI")
     app.setStyle("Fusion"); app.setStyleSheet(STYLE)
+
+    # [W1] Injection silencieuse des canaris de base de données
+    _db_path = str(Path.home() / ".config" / "sudolex" / "sudolex_data.db")
+    Path(_db_path).parent.mkdir(parents=True, exist_ok=True)
+    _slx_inject_canaries(_db_path)
+
     win = MainWindow(); win.show()
     sys.exit(app.exec())
 
