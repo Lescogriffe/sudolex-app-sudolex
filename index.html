@@ -192,16 +192,24 @@
 
     <!-- Desktop nav -->
     <nav style="display:flex;align-items:center;gap:36px;" class="hidden md:flex">
-      <a href="#fonctionnalites" class="nav-lnk" style="font-size:.875rem;font-weight:500;">Fonctionnalités</a>
-      <a href="#comment" class="nav-lnk" style="font-size:.875rem;font-weight:500;">Comment ça marche</a>
-      <a href="#" class="nav-lnk" style="font-size:.875rem;font-weight:500;">Documentation</a>
+      <a href="#fonctionnalites" class="nav-lnk" style="font-size:.875rem;font-weight:500;" data-fr="Fonctionnalités" data-en="Features" data-nl="Functies">Fonctionnalités</a>
+      <a href="#comment" class="nav-lnk" style="font-size:.875rem;font-weight:500;" data-fr="Comment ça marche" data-en="How it works" data-nl="Hoe het werkt">Comment ça marche</a>
+      <a href="#" class="nav-lnk" style="font-size:.875rem;font-weight:500;" data-fr="Documentation" data-en="Documentation" data-nl="Documentatie">Documentation</a>
     </nav>
 
     <!-- CTA + Hamburger -->
     <div style="display:flex;align-items:center;gap:12px;">
+
+      <!-- Language switcher -->
+      <div id="lang-switch" style="display:flex;align-items:center;gap:2px;border:1px solid #1A2440;border-radius:8px;padding:2px;">
+        <button type="button" data-lang="fr" onclick="setLang('fr')" style="font-size:.7rem;font-weight:600;padding:4px 8px;border:none;border-radius:6px;background:transparent;color:#94A3B8;cursor:pointer;">FR</button>
+        <button type="button" data-lang="en" onclick="setLang('en')" style="font-size:.7rem;font-weight:600;padding:4px 8px;border:none;border-radius:6px;background:transparent;color:#94A3B8;cursor:pointer;">EN</button>
+        <button type="button" data-lang="nl" onclick="setLang('nl')" style="font-size:.7rem;font-weight:600;padding:4px 8px;border:none;border-radius:6px;background:transparent;color:#94A3B8;cursor:pointer;">NL</button>
+      </div>
+
       <a href="#telecharger" class="btn-p sm hidden md:inline-flex">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M4.5 7.5l2.5 3 2.5-3M2 12.5h10" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Télécharger
+        <span data-fr="Télécharger" data-en="Download" data-nl="Downloaden">Télécharger</span>
       </a>
       <button id="hamburger" onclick="toggleNav()" aria-label="Menu" style="padding:8px;border-radius:8px;border:1px solid #1A2440;background:transparent;cursor:pointer;color:#94A3B8;display:flex;" class="md:hidden">
         <svg id="icon-menu" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 5h12M3 9h12M3 13h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -212,12 +220,10 @@
 
   <!-- Mobile nav -->
   <div id="mob-nav" style="padding:8px 24px 16px;border-top:1px solid #1A2440;background:#080B14;">
-    <a href="#fonctionnalites" onclick="closeNav()" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;">Fonctionnalités</a>
-    <a href="#comment" onclick="closeNav()" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;">Comment ça marche</a>
-    <a href="#" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;">Documentation</a>
-    <a href="#telecharger" onclick="closeNav()" class="btn-p" style="display:flex;justify-content:center;margin-top:12px;border-radius:10px;">
-      Télécharger gratuitement
-    </a>
+    <a href="#fonctionnalites" onclick="closeNav()" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;" data-fr="Fonctionnalités" data-en="Features" data-nl="Functies">Fonctionnalités</a>
+    <a href="#comment" onclick="closeNav()" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;" data-fr="Comment ça marche" data-en="How it works" data-nl="Hoe het werkt">Comment ça marche</a>
+    <a href="#" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;" data-fr="Documentation" data-en="Documentation" data-nl="Documentatie">Documentation</a>
+    <a href="#telecharger" onclick="closeNav()" class="btn-p" style="display:flex;justify-content:center;margin-top:12px;border-radius:10px;" data-fr="Demander une licence" data-en="Request a licence" data-nl="Een licentie aanvragen">Demander une licence</a>
   </div>
 </header>
 
@@ -232,31 +238,37 @@
     <div>
       <div class="local-pill" style="margin-bottom:28px;">
         <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#A78BFA" fill-opacity=".6"/><circle cx="4" cy="4" r="1.5" fill="#A78BFA"/></svg>
-        Traitement 100&nbsp;% local &mdash; zéro cloud
+        <span data-fr="Traitement 100 % local — zéro cloud" data-en="100% local processing — zero cloud" data-nl="100% lokale verwerking — geen cloud">Traitement 100&nbsp;% local &mdash; zéro cloud</span>
       </div>
 
       <h1 class="ff-h" style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.06;letter-spacing:-.035em;margin-bottom:24px;">
-        Vos documents.<br>
-        Votre intelligence.<br>
-        <span class="text-grad">Votre machine.</span>
+        <span data-fr="Vos documents." data-en="Your documents." data-nl="Uw documenten.">Vos documents.</span><br>
+        <span data-fr="Votre intelligence." data-en="Your intelligence." data-nl="Uw intelligentie.">Votre intelligence.</span><br>
+        <span class="text-grad" data-fr="Votre machine." data-en="Your machine." data-nl="Uw machine.">Votre machine.</span>
       </h1>
 
-      <p style="font-size:1.0625rem;line-height:1.75;color:#64748B;max-width:44ch;margin-bottom:36px;">
+      <p style="font-size:1.0625rem;line-height:1.75;color:#64748B;max-width:44ch;margin-bottom:36px;"
+         data-fr="Sudolex analyse, interroge et synthétise vos documents directement sur votre appareil. Aucune donnée ne quitte votre réseau — confidentialité absolue, performance maximale."
+         data-en="Sudolex analyses, queries and summarises your documents directly on your device. No data ever leaves your network — absolute confidentiality, maximum performance."
+         data-nl="Sudolex analyseert, doorzoekt en vat uw documenten rechtstreeks op uw apparaat samen. Geen enkel gegeven verlaat uw netwerk — absolute vertrouwelijkheid, maximale prestaties.">
         Sudolex analyse, interroge et synthétise vos documents directement sur votre appareil. Aucune donnée ne quitte votre réseau &mdash; confidentialité absolue, performance maximale.
       </p>
 
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px;">
         <a href="#telecharger" class="btn-p">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v10M5 9.5l3 3 3-3M2 13.5h12" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Télécharger gratuitement
+          <span data-fr="Demander une licence" data-en="Request a licence" data-nl="Een licentie aanvragen">Demander une licence</span>
         </a>
         <a href="#comment" class="btn-g">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 6c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5C9.5 7.5 8 7.5 8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".8" fill="currentColor"/></svg>
-          Voir la démo
+          <span data-fr="Voir la démo" data-en="Watch the demo" data-nl="Bekijk de demo">Voir la démo</span>
         </a>
       </div>
 
-      <p style="font-size:.75rem;color:#475569;">
+      <p style="font-size:.75rem;color:#475569;"
+         data-fr="Compatible Windows & macOS · Fonctionne entièrement hors connexion"
+         data-en="Compatible with Windows & macOS · Works fully offline"
+         data-nl="Compatibel met Windows & macOS · Werkt volledig offline">
         Compatible Windows &amp; macOS &nbsp;&middot;&nbsp; Fonctionne entièrement hors connexion
       </p>
     </div>
@@ -283,7 +295,7 @@
               </svg>
             </div>
             <span style="font-size:.75rem;font-weight:500;color:#94A3B8;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">rapport_annuel_2024.pdf</span>
-            <span style="font-size:.7rem;padding:2px 7px;border-radius:6px;background:rgba(59,130,246,.12);color:#60A5FA;border:1px solid rgba(59,130,246,.2);flex-shrink:0;">local</span>
+            <span style="font-size:.7rem;padding:2px 7px;border-radius:6px;background:rgba(59,130,246,.12);color:#60A5FA;border:1px solid rgba(59,130,246,.2);flex-shrink:0;" data-fr="local" data-en="local" data-nl="lokaal">local</span>
           </div>
 
           <!-- Scanning area -->
@@ -310,9 +322,12 @@
               <div style="width:16px;height:16px;border-radius:50%;background:rgba(59,130,246,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <span class="ff-h" style="font-size:.75rem;font-weight:600;color:#38BDF8;">Analyse terminée &middot; 2.4s</span>
+              <span class="ff-h" style="font-size:.75rem;font-weight:600;color:#38BDF8;" data-fr="Analyse terminée · 2.4s" data-en="Analysis complete · 2.4s" data-nl="Analyse voltooid · 2.4s">Analyse terminée &middot; 2.4s</span>
             </div>
-            <div style="padding:10px 12px;border-radius:10px;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);font-size:.75rem;line-height:1.6;color:#CBD5E1;">
+            <div style="padding:10px 12px;border-radius:10px;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);font-size:.75rem;line-height:1.6;color:#CBD5E1;"
+                 data-fr="&quot;Le CA a progressé de 18 % en T3, porté par les marchés européens…&quot;"
+                 data-en="&quot;Revenue grew 18% in Q3, driven by European markets…&quot;"
+                 data-nl="&quot;De omzet groeide met 18% in Q3, gedreven door de Europese markten…&quot;">
               "Le CA a progressé de 18&nbsp;% en T3, porté par les marchés européens&hellip;"
             </div>
           </div>
@@ -332,7 +347,7 @@
           </div>
 
         </div>
-        <p style="text-align:center;margin-top:12px;font-size:.75rem;color:#475569;">Aucune donnée ne quitte votre machine</p>
+        <p style="text-align:center;margin-top:12px;font-size:.75rem;color:#475569;" data-fr="Aucune donnée ne quitte votre machine" data-en="No data ever leaves your machine" data-nl="Geen enkel gegeven verlaat uw machine">Aucune donnée ne quitte votre machine</p>
       </div>
     </div>
 
@@ -348,8 +363,11 @@
 
     <!-- Header -->
     <div style="text-align:center;margin-bottom:64px;">
-      <span class="ff-h" style="display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8B5CF6;margin-bottom:12px;">Fonctionnalités</span>
-      <h2 class="ff-h" style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;">
+      <span class="ff-h" style="display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8B5CF6;margin-bottom:12px;" data-fr="Fonctionnalités" data-en="Features" data-nl="Functies">Fonctionnalités</span>
+      <h2 class="ff-h" style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;"
+          data-fr="Conçu pour ceux qui ne transigent<br>pas sur la confidentialité"
+          data-en="Built for those who never<br>compromise on confidentiality"
+          data-nl="Gemaakt voor wie geen compromissen<br>sluit over vertrouwelijkheid">
         Conçu pour ceux qui ne transigent<br>pas sur la confidentialité
       </h2>
     </div>
@@ -368,12 +386,15 @@
             <path d="M19 19l1.5 1.5" stroke="#60A5FA" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
         </div>
-        <h3 class="ff-h" style="font-size:1.1875rem;font-weight:600;margin-bottom:10px;">Analyse Intelligente</h3>
-        <p style="font-size:.875rem;line-height:1.75;color:#64748B;margin-bottom:24px;">Posez vos questions en langage naturel sur vos documents. Sudolex comprend le contexte, localise les passages clés et synthétise l'information avec précision.</p>
+        <h3 class="ff-h" style="font-size:1.1875rem;font-weight:600;margin-bottom:10px;" data-fr="Analyse Intelligente" data-en="Intelligent Analysis" data-nl="Intelligente Analyse">Analyse Intelligente</h3>
+        <p style="font-size:.875rem;line-height:1.75;color:#64748B;margin-bottom:24px;"
+           data-fr="Posez vos questions en langage naturel sur vos documents. Sudolex comprend le contexte, localise les passages clés et synthétise l'information avec précision."
+           data-en="Ask questions about your documents in natural language. Sudolex understands the context, pinpoints the key passages and summarises the information with precision."
+           data-nl="Stel uw vragen over uw documenten in gewone taal. Sudolex begrijpt de context, lokaliseert de belangrijkste passages en vat de informatie nauwkeurig samen.">Posez vos questions en langage naturel sur vos documents. Sudolex comprend le contexte, localise les passages clés et synthétise l'information avec précision.</p>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>PDF, DOCX, XLSX, PPTX et TXT</div>
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Recherche sémantique multi-documents</div>
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Synthèse et export en un clic</div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="PDF, DOCX, XLSX, PPTX et TXT" data-en="PDF, DOCX, XLSX, PPTX and TXT" data-nl="PDF, DOCX, XLSX, PPTX en TXT">PDF, DOCX, XLSX, PPTX et TXT</span></div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Recherche sémantique multi-documents" data-en="Multi-document semantic search" data-nl="Semantisch zoeken over meerdere documenten">Recherche sémantique multi-documents</span></div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Synthèse et export en un clic" data-en="One-click summary and export" data-nl="Samenvatting en export met één klik">Synthèse et export en un clic</span></div>
         </div>
       </div>
 
@@ -386,12 +407,15 @@
             <path d="M8 11l2.5 2.5 4.5-4.5" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h3 class="ff-h" style="font-size:1.1875rem;font-weight:600;margin-bottom:10px;">Sécurité 100&nbsp;% Locale</h3>
-        <p style="font-size:.875rem;line-height:1.75;color:#64748B;margin-bottom:24px;">Le modèle IA tourne sur votre machine. Aucun appel API externe, aucune télémétrie. Idéal pour les secteurs réglementés&nbsp;: juridique, médical, finance, défense.</p>
+        <h3 class="ff-h" style="font-size:1.1875rem;font-weight:600;margin-bottom:10px;" data-fr="Sécurité 100 % Locale" data-en="100% Local Security" data-nl="100% Lokale Beveiliging">Sécurité 100&nbsp;% Locale</h3>
+        <p style="font-size:.875rem;line-height:1.75;color:#64748B;margin-bottom:24px;"
+           data-fr="Le modèle IA tourne sur votre machine. Aucun appel API externe, aucune télémétrie. Idéal pour les secteurs réglementés : juridique, médical, finance, défense."
+           data-en="The AI model runs on your machine. No external API calls, no telemetry. Ideal for regulated sectors: legal, medical, finance, defence."
+           data-nl="Het AI-model draait op uw machine. Geen externe API-oproepen, geen telemetrie. Ideaal voor gereguleerde sectoren: juridisch, medisch, financiën, defensie.">Le modèle IA tourne sur votre machine. Aucun appel API externe, aucune télémétrie. Idéal pour les secteurs réglementés&nbsp;: juridique, médical, finance, défense.</p>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Aucune API cloud, zéro télémétrie</div>
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Fonctionne intégralement hors connexion</div>
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conforme RGPD by design</div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Aucune API cloud, zéro télémétrie" data-en="No cloud API, zero telemetry" data-nl="Geen cloud-API, geen telemetrie">Aucune API cloud, zéro télémétrie</span></div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Fonctionne intégralement hors connexion" data-en="Works fully offline" data-nl="Werkt volledig offline">Fonctionne intégralement hors connexion</span></div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Conforme RGPD by design" data-en="GDPR-compliant by design" data-nl="AVG-conform by design">Conforme RGPD by design</span></div>
         </div>
       </div>
 
@@ -402,12 +426,15 @@
             <path d="M11 3L4 12h7l-2 7 9-10h-7l2-6z" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h3 class="ff-h" style="font-size:1.1875rem;font-weight:600;margin-bottom:10px;">Rapidité d'exécution</h3>
-        <p style="font-size:.875rem;line-height:1.75;color:#64748B;margin-bottom:24px;">Optimisé pour les processeurs modernes, CPU et GPU. Indexez des centaines de documents et obtenez des réponses en quelques secondes, même sur portable.</p>
+        <h3 class="ff-h" style="font-size:1.1875rem;font-weight:600;margin-bottom:10px;" data-fr="Rapidité d'exécution" data-en="Fast Performance" data-nl="Snelle Uitvoering">Rapidité d'exécution</h3>
+        <p style="font-size:.875rem;line-height:1.75;color:#64748B;margin-bottom:24px;"
+           data-fr="Optimisé pour les processeurs modernes, CPU et GPU. Indexez des centaines de documents et obtenez des réponses en quelques secondes, même sur portable."
+           data-en="Optimised for modern processors, CPU and GPU. Index hundreds of documents and get answers in seconds, even on a laptop."
+           data-nl="Geoptimaliseerd voor moderne processors, CPU en GPU. Indexeer honderden documenten en krijg binnen enkele seconden antwoorden, zelfs op een laptop.">Optimisé pour les processeurs modernes, CPU et GPU. Indexez des centaines de documents et obtenez des réponses en quelques secondes, même sur portable.</p>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indexation vectorielle locale rapide</div>
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Accélération GPU (CUDA &amp; Metal)</div>
-          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Réponses en moins de 5&nbsp;secondes</div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Indexation vectorielle locale rapide" data-en="Fast local vector indexing" data-nl="Snelle lokale vectorindexering">Indexation vectorielle locale rapide</span></div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Accélération GPU (CUDA & Metal)" data-en="GPU acceleration (CUDA & Metal)" data-nl="GPU-versnelling (CUDA & Metal)">Accélération GPU (CUDA &amp; Metal)</span></div>
+          <div class="chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-fr="Réponses en moins de 5 secondes" data-en="Answers in under 5 seconds" data-nl="Antwoorden in minder dan 5 seconden">Réponses en moins de 5&nbsp;secondes</span></div>
         </div>
       </div>
 
@@ -424,9 +451,12 @@
 
     <!-- Header -->
     <div style="text-align:center;margin-bottom:64px;">
-      <span class="ff-h" style="display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#0EA5E9;margin-bottom:12px;">Prise en main</span>
-      <h2 class="ff-h" style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.03em;margin-bottom:16px;">Trois étapes, zéro friction</h2>
-      <p style="font-size:1rem;color:#64748B;max-width:42ch;margin:0 auto;line-height:1.7;">Pas de compte. Pas de configuration réseau. Ouvrez Sudolex et commencez immédiatement.</p>
+      <span class="ff-h" style="display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#0EA5E9;margin-bottom:12px;" data-fr="Prise en main" data-en="Getting started" data-nl="Aan de slag">Prise en main</span>
+      <h2 class="ff-h" style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.03em;margin-bottom:16px;" data-fr="Trois étapes, zéro friction" data-en="Three steps, zero friction" data-nl="Drie stappen, nul wrijving">Trois étapes, zéro friction</h2>
+      <p style="font-size:1rem;color:#64748B;max-width:42ch;margin:0 auto;line-height:1.7;"
+         data-fr="Pas de compte. Pas de configuration réseau. Ouvrez Sudolex et commencez immédiatement."
+         data-en="No account. No network setup. Open Sudolex and start right away."
+         data-nl="Geen account. Geen netwerkconfiguratie. Open Sudolex en begin meteen.">Pas de compte. Pas de configuration réseau. Ouvrez Sudolex et commencez immédiatement.</p>
     </div>
 
     <!-- Steps -->
@@ -444,8 +474,11 @@
           </div>
           <div class="step-num">1</div>
         </div>
-        <h3 class="ff-h" style="font-size:1.0625rem;font-weight:600;margin-bottom:10px;">Glissez vos documents</h3>
-        <p style="font-size:.875rem;line-height:1.75;color:#64748B;max-width:26ch;margin:0 auto;">Déposez vos fichiers PDF, Word, Excel ou présentations. L'indexation démarre instantanément, en local.</p>
+        <h3 class="ff-h" style="font-size:1.0625rem;font-weight:600;margin-bottom:10px;" data-fr="Glissez vos documents" data-en="Drop in your documents" data-nl="Sleep uw documenten erin">Glissez vos documents</h3>
+        <p style="font-size:.875rem;line-height:1.75;color:#64748B;max-width:26ch;margin:0 auto;"
+           data-fr="Déposez vos fichiers PDF, Word, Excel ou présentations. L'indexation démarre instantanément, en local."
+           data-en="Drop in your PDF, Word, Excel or presentation files. Indexing starts instantly, locally."
+           data-nl="Zet uw PDF-, Word-, Excel- of presentatiebestanden neer. De indexering start meteen, lokaal.">Déposez vos fichiers PDF, Word, Excel ou présentations. L'indexation démarre instantanément, en local.</p>
       </div>
 
       <!-- Step 2 -->
@@ -461,8 +494,11 @@
           </div>
           <div class="step-num">2</div>
         </div>
-        <h3 class="ff-h" style="font-size:1.0625rem;font-weight:600;margin-bottom:10px;">L'IA locale analyse</h3>
-        <p style="font-size:.875rem;line-height:1.75;color:#64748B;max-width:26ch;margin:0 auto;">Le modèle de langage tourne sur votre CPU ou GPU. Il lit, comprend et indexe chaque document.</p>
+        <h3 class="ff-h" style="font-size:1.0625rem;font-weight:600;margin-bottom:10px;" data-fr="L'IA locale analyse" data-en="The local AI analyses" data-nl="De lokale AI analyseert">L'IA locale analyse</h3>
+        <p style="font-size:.875rem;line-height:1.75;color:#64748B;max-width:26ch;margin:0 auto;"
+           data-fr="Le modèle de langage tourne sur votre CPU ou GPU. Il lit, comprend et indexe chaque document."
+           data-en="The language model runs on your CPU or GPU. It reads, understands and indexes every document."
+           data-nl="Het taalmodel draait op uw CPU of GPU. Het leest, begrijpt en indexeert elk document.">Le modèle de langage tourne sur votre CPU ou GPU. Il lit, comprend et indexe chaque document.</p>
       </div>
 
       <!-- Step 3 -->
@@ -478,8 +514,11 @@
           </div>
           <div class="step-num">3</div>
         </div>
-        <h3 class="ff-h" style="font-size:1.0625rem;font-weight:600;margin-bottom:10px;">Obtenez vos réponses</h3>
-        <p style="font-size:.875rem;line-height:1.75;color:#64748B;max-width:26ch;margin:0 auto;">Posez vos questions, recevez des réponses sourcées. Exportez vos synthèses en un clic.</p>
+        <h3 class="ff-h" style="font-size:1.0625rem;font-weight:600;margin-bottom:10px;" data-fr="Obtenez vos réponses" data-en="Get your answers" data-nl="Krijg uw antwoorden">Obtenez vos réponses</h3>
+        <p style="font-size:.875rem;line-height:1.75;color:#64748B;max-width:26ch;margin:0 auto;"
+           data-fr="Posez vos questions, recevez des réponses sourcées. Exportez vos synthèses en un clic."
+           data-en="Ask your questions, get sourced answers. Export your summaries in one click."
+           data-nl="Stel uw vragen, ontvang onderbouwde antwoorden. Exporteer uw samenvattingen met één klik.">Posez vos questions, recevez des réponses sourcées. Exportez vos synthèses en un clic.</p>
       </div>
 
     </div>
@@ -495,15 +534,21 @@
 
     <div class="local-pill" style="margin-bottom:28px;">
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1.5l-3 2v5.5h6V3.5L5 1.5z" stroke="#A78BFA" stroke-width="1.2" stroke-linejoin="round"/></svg>
-      Gratuit · Open Source · Licence MIT
+      <span data-fr="Licence professionnelle · Logiciel propriétaire" data-en="Professional licence · Proprietary software" data-nl="Professionele licentie · Propriëtaire software">Licence professionnelle · Logiciel propriétaire</span>
     </div>
 
-    <h2 class="ff-h" style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;margin-bottom:20px;">
+    <h2 class="ff-h" style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;margin-bottom:20px;"
+        data-fr="Prêt à garder le contrôle<br>de vos données&nbsp;?"
+        data-en="Ready to keep control<br>of your data?"
+        data-nl="Klaar om de controle<br>over uw gegevens te houden?">
       Prêt à garder le contrôle<br>de vos données&nbsp;?
     </h2>
 
-    <p style="font-size:1rem;line-height:1.75;color:#64748B;margin-bottom:40px;">
-      Téléchargez Sudolex et commencez à interroger vos documents en moins de deux minutes. Aucun compte requis, aucune connexion nécessaire.
+    <p style="font-size:1rem;line-height:1.75;color:#64748B;margin-bottom:40px;"
+       data-fr="Déployez Sudolex sur les postes de votre cabinet et interrogez vos dossiers en moins de deux minutes. Installation locale, aucune donnée transmise à l'extérieur."
+       data-en="Deploy Sudolex across your firm's workstations and query your case files in under two minutes. Local installation, no data sent outside."
+       data-nl="Rol Sudolex uit op de werkstations van uw kantoor en doorzoek uw dossiers in minder dan twee minuten. Lokale installatie, geen gegevens naar buiten verzonden.">
+      Déployez Sudolex sur les postes de votre cabinet et interrogez vos dossiers en moins de deux minutes. Installation locale, aucune donnée transmise à l&rsquo;extérieur.
     </p>
 
     <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:24px;">
@@ -512,26 +557,29 @@
           <rect x="2" y="13.5" width="14" height="2" rx="1" fill="white" fill-opacity=".35"/>
           <path d="M9 2v10M6 9l3 3 3-3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Télécharger pour Windows
+        <span data-fr="Demander une licence Windows" data-en="Request a Windows licence" data-nl="Een Windows-licentie aanvragen">Demander une licence Windows</span>
       </a>
       <div class="btn-g" style="padding:14px 24px;font-size:.9375rem;opacity:.55;cursor:default;border-style:dashed;">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2z" stroke="currentColor" stroke-width="1.4"/><path d="M8 6v2l1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        macOS &mdash; Bientôt disponible
+        <span data-fr="macOS — Bientôt disponible" data-en="macOS — Coming soon" data-nl="macOS — Binnenkort beschikbaar">macOS &mdash; Bientôt disponible</span>
       </div>
     </div>
 
-    <p style="font-size:.75rem;color:#475569;">
+    <p style="font-size:.75rem;color:#475569;"
+       data-fr="Version 1.0.0 · Windows 10/11 · 4 Go RAM minimum"
+       data-en="Version 1.0.0 · Windows 10/11 · 4 GB RAM minimum"
+       data-nl="Versie 1.0.0 · Windows 10/11 · 4 GB RAM minimum">
       Version 1.0.0 &nbsp;&middot;&nbsp; Windows 10/11 &nbsp;&middot;&nbsp; 4&nbsp;Go RAM minimum
     </p>
 
     <div style="margin-top:20px;padding:16px 20px;border-radius:12px;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.22);text-align:left;max-width:440px;margin-left:auto;margin-right:auto;">
-      <p style="font-size:.7rem;font-weight:600;color:#A78BFA;margin:0 0 10px;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:.08em;">Licence Sudolex</p>
+      <p style="font-size:.7rem;font-weight:600;color:#A78BFA;margin:0 0 10px;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:.08em;" data-fr="Licence professionnelle Sudolex" data-en="Sudolex professional licence" data-nl="Sudolex professionele licentie">Licence professionnelle Sudolex</p>
       <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px;">
-        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#22C55E;">&#10003;</span> Usage personnel : gratuit et libre</li>
-        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#22C55E;">&#10003;</span> Modification : autoris&eacute;e pour usage personnel</li>
-        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#22C55E;">&#10003;</span> Redistribution : autoris&eacute;e sans modification</li>
-        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#EF4444;">&#10007;</span> Usage commercial : <span style="color:#F87171;font-weight:600;">interdit</span> sans accord &eacute;crit de l&rsquo;auteur</li>
-        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#EF4444;">&#10007;</span> Vente : <span style="color:#F87171;font-weight:600;">interdite</span> sous toute forme</li>
+        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#22C55E;">&#10003;</span> <span data-fr="Usage professionnel : autorisé dans le cadre de la licence acquise" data-en="Professional use: permitted within the scope of the licence acquired" data-nl="Professioneel gebruik: toegestaan binnen het kader van de verworven licentie">Usage professionnel : autoris&eacute; dans le cadre de la licence acquise</span></li>
+        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#22C55E;">&#10003;</span> <span data-fr="Déploiement : par poste ou par cabinet, selon la formule" data-en="Deployment: per workstation or per firm, depending on the plan" data-nl="Uitrol: per werkstation of per kantoor, afhankelijk van de formule">D&eacute;ploiement : par poste ou par cabinet, selon la formule</span></li>
+        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#22C55E;">&#10003;</span> <span data-fr="Mises à jour et support inclus pendant la période de licence" data-en="Updates and support included during the licence period" data-nl="Updates en ondersteuning inbegrepen tijdens de licentieperiode">Mises &agrave; jour et support inclus pendant la p&eacute;riode de licence</span></li>
+        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#EF4444;">&#10007;</span> <span data-fr="Copie, redistribution ou revente : <span style=&quot;color:#F87171;font-weight:600;&quot;>interdites</span> sans accord écrit de l'auteur" data-en="Copying, redistribution or resale: <span style=&quot;color:#F87171;font-weight:600;&quot;>prohibited</span> without the author's written consent" data-nl="Kopiëren, herdistributie of doorverkoop: <span style=&quot;color:#F87171;font-weight:600;&quot;>verboden</span> zonder schriftelijke toestemming van de auteur">Copie, redistribution ou revente : <span style="color:#F87171;font-weight:600;">interdites</span> sans accord &eacute;crit de l&rsquo;auteur</span></li>
+        <li style="font-size:.73rem;color:#64748B;display:flex;align-items:center;gap:7px;"><span style="color:#EF4444;">&#10007;</span> <span data-fr="Modification et ingénierie inverse : <span style=&quot;color:#F87171;font-weight:600;&quot;>interdites</span>" data-en="Modification and reverse engineering: <span style=&quot;color:#F87171;font-weight:600;&quot;>prohibited</span>" data-nl="Wijziging en reverse-engineering: <span style=&quot;color:#F87171;font-weight:600;&quot;>verboden</span>">Modification et ing&eacute;nierie inverse : <span style="color:#F87171;font-weight:600;">interdites</span></span></li>
       </ul>
       <p style="font-size:.68rem;color:#475569;margin:10px 0 0;border-top:1px solid rgba(255,255,255,.06);padding-top:8px;">&copy; 2026 Sudolex / Lescogriffe &nbsp;&middot;&nbsp; sudolex.com</p>
     </div>
@@ -554,14 +602,11 @@
 
       <!-- Links -->
       <nav style="display:flex;flex-wrap:wrap;gap:24px;">
-        <a href="#" class="nav-lnk" style="font-size:.875rem;">Documentation</a>
-        <a href="#" class="nav-lnk" style="font-size:.875rem;">Mentions légales</a>
-        <a href="#" class="nav-lnk" style="font-size:.875rem;">Confidentialité</a>
-        <a href="#" class="nav-lnk" style="font-size:.875rem;">Contact</a>
-        <a href="#" class="nav-lnk" style="font-size:.875rem;display:flex;align-items:center;gap:5px;">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1C3.7 1 1 3.7 1 7c0 2.65 1.72 4.9 4.1 5.69.3.05.41-.13.41-.29v-1.01c-1.67.36-2.02-.71-2.02-.71-.27-.69-.67-.87-.67-.87-.55-.37.04-.36.04-.36.6.04.92.62.92.62.54.92 1.41.65 1.75.5.05-.39.21-.65.38-.8-1.33-.15-2.73-.67-2.73-2.96 0-.65.23-1.19.62-1.61-.06-.15-.27-.76.06-1.59 0 0 .5-.16 1.65.62.48-.13.99-.2 1.5-.2.51 0 1.02.07 1.5.2 1.15-.78 1.65-.62 1.65-.62.33.83.12 1.44.06 1.59.39.42.62.96.62 1.61 0 2.3-1.4 2.8-2.73 2.96.21.18.4.55.4 1.1v1.63c0 .16.11.35.41.29C11.28 11.9 13 9.65 13 7c0-3.3-2.7-6-6-6z" fill="currentColor"/></svg>
-          GitHub
-        </a>
+        <a href="#" class="nav-lnk" style="font-size:.875rem;" data-fr="Documentation" data-en="Documentation" data-nl="Documentatie">Documentation</a>
+        <a href="#" class="nav-lnk" style="font-size:.875rem;" data-fr="Mentions légales" data-en="Legal notice" data-nl="Wettelijke vermeldingen">Mentions légales</a>
+        <a href="#" class="nav-lnk" style="font-size:.875rem;" data-fr="Confidentialité" data-en="Privacy" data-nl="Privacy">Confidentialité</a>
+        <a href="#" class="nav-lnk" style="font-size:.875rem;" data-fr="Contact" data-en="Contact" data-nl="Contact">Contact</a>
+        <a href="#" class="nav-lnk" style="font-size:.875rem;" data-fr="Licence & tarifs" data-en="Licence & pricing" data-nl="Licentie & tarieven">Licence &amp; tarifs</a>
       </nav>
 
       <!-- Copyright -->
@@ -610,6 +655,57 @@
       }
     });
   });
+</script>
+
+
+<!-- ═══════════════════════════════════════════════
+     I18N — Bascule de langue (FR / EN / NL)
+═══════════════════════════════════════════════ -->
+<script>
+  // ── Traductions des éléments hors data-attributs (title + meta description) ──
+  var META_I18N = {
+    fr: { title: "Sudolex — Intelligence Documentaire Locale",
+          desc: "Sudolex analyse vos documents en local, sans cloud. Interrogez, synthétisez et extrayez l'information de vos PDF, Word et Excel en toute confidentialité." },
+    en: { title: "Sudolex — Local Document Intelligence",
+          desc: "Sudolex analyses your documents locally, no cloud. Query, summarise and extract information from your PDF, Word and Excel files in complete confidentiality." },
+    nl: { title: "Sudolex — Lokale Documentintelligentie",
+          desc: "Sudolex analyseert uw documenten lokaal, zonder cloud. Doorzoek, vat samen en haal informatie uit uw PDF-, Word- en Excel-bestanden in volledige vertrouwelijkheid." }
+  };
+
+  function setLang(lang) {
+    if (!META_I18N[lang]) lang = 'fr';
+
+    // 1. Injecte le texte de chaque élément porteur d'un data-attribut
+    document.querySelectorAll('[data-' + lang + ']').forEach(function (el) {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+
+    // 2. Attribut lang du document (accessibilité / SEO)
+    document.documentElement.lang = lang;
+
+    // 3. Title + meta description
+    document.title = META_I18N[lang].title;
+    var meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', META_I18N[lang].desc);
+
+    // 4. Surbrillance du bouton de langue actif
+    document.querySelectorAll('#lang-switch button').forEach(function (b) {
+      var on = b.getAttribute('data-lang') === lang;
+      b.style.background = on ? 'rgba(139,92,246,.15)' : 'transparent';
+      b.style.color = on ? '#A78BFA' : '#94A3B8';
+    });
+
+    // 5. Mémorise le choix
+    try { localStorage.setItem('sudolex_lang', lang); } catch (e) {}
+  }
+
+  // Au chargement : langue mémorisée, sinon langue du navigateur, sinon FR
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('sudolex_lang'); } catch (e) {}
+    var nav = (navigator.language || 'fr').slice(0, 2);
+    setLang(saved || (META_I18N[nav] ? nav : 'fr'));
+  })();
 </script>
 
 </body>
