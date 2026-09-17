@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sudolex — Intelligence Documentaire Locale</title>
+  <title>Sudolex — L'IA juridique 100 % locale : le secret professionnel ne passe pas par le cloud</title>
   <meta name="description" content="Sudolex analyse vos documents en local, sans cloud. Interrogez, synthétisez et extrayez l'information de vos PDF, Word et Excel en toute confidentialité." />
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -169,6 +169,40 @@
       .scan-line, .pr1, .pr2 { animation: none; }
     }
 
+    /* ── Cloud risks ── */
+    .t-red { color:#EF4444; }
+    .risk-card {
+      background: linear-gradient(180deg, rgba(239,68,68,.07), rgba(239,68,68,.02));
+      border: 1px solid rgba(239,68,68,.28); border-radius: 16px; padding: 28px;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .risk-card:hover { transform: translateY(-4px); border-color: rgba(239,68,68,.5); box-shadow: 0 20px 60px rgba(239,68,68,.08); }
+    .risk-num { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:.8rem; color:#F87171; letter-spacing:.08em; margin-bottom:14px; }
+    .sol-band {
+      margin-top:56px; border-radius:20px; padding:40px;
+      background: linear-gradient(135deg, rgba(14,165,233,.08), rgba(139,92,246,.12));
+      border:1px solid rgba(139,92,246,.35);
+    }
+    .stat-box { background:#131A2A; border:1px solid #1A2440; border-radius:14px; padding:20px; }
+    .stat-v { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2rem; line-height:1; }
+
+    /* ── Hero grid (2 colonnes dès 900 px) ── */
+    .hero-grid { display:grid; grid-template-columns:1fr; gap:56px; align-items:center; }
+    @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.15fr .85fr; } }
+
+    /* ── Stamp ── */
+    .stamp {
+      position:absolute; right:-14px; bottom:-18px; z-index:3;
+      padding:6px 12px; border:3px solid #EF4444; border-radius:6px;
+      color:#EF4444; font-family:'Space Grotesk',sans-serif; font-weight:700;
+      font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; line-height:1.15; text-align:center;
+      background:rgba(8,11,20,.55); transform:rotate(-12deg);
+      box-shadow:0 0 0 1px rgba(239,68,68,.35) inset, 0 0 24px rgba(239,68,68,.25);
+      mix-blend-mode:normal; animation:stampIn .5s cubic-bezier(.2,1.4,.4,1) 2.2s both;
+    }
+    @keyframes stampIn { 0%{opacity:0;transform:rotate(-12deg) scale(1.8);} 100%{opacity:1;transform:rotate(-12deg) scale(1);} }
+    @media (prefers-reduced-motion: reduce) { .stamp { animation:none; } }
+
     /* ── Misc ── */
     a { text-decoration: none; }
     hr.grad {
@@ -192,6 +226,7 @@
 
     <!-- Desktop nav -->
     <nav style="display:flex;align-items:center;gap:36px;" class="hidden md:flex">
+      <a href="#risques" class="nav-lnk" style="font-size:.875rem;font-weight:500;" data-fr="Pourquoi local ?" data-en="Why local?" data-nl="Waarom lokaal?">Pourquoi local ?</a>
       <a href="#fonctionnalites" class="nav-lnk" style="font-size:.875rem;font-weight:500;" data-fr="Fonctionnalités" data-en="Features" data-nl="Functies">Fonctionnalités</a>
       <a href="#comment" class="nav-lnk" style="font-size:.875rem;font-weight:500;" data-fr="Comment ça marche" data-en="How it works" data-nl="Hoe het werkt">Comment ça marche</a>
         <a href="#support" style="font-size:.875rem;font-weight:500;color:#94A3B8;transition:color .2s;" onmouseover="this.style.color='#F8FAFC'" onmouseout="this.style.color='#94A3B8'" data-fr="Support" data-en="Support" data-nl="Support">Support</a>
@@ -221,6 +256,7 @@
 
   <!-- Mobile nav -->
   <div id="mob-nav" style="padding:8px 24px 16px;border-top:1px solid #1A2440;background:#080B14;">
+    <a href="#risques" onclick="closeNav()" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;" data-fr="Pourquoi local ?" data-en="Why local?" data-nl="Waarom lokaal?">Pourquoi local ?</a>
     <a href="#fonctionnalites" onclick="closeNav()" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;" data-fr="Fonctionnalités" data-en="Features" data-nl="Functies">Fonctionnalités</a>
     <a href="#comment" onclick="closeNav()" class="nav-lnk" style="display:block;padding:10px 0;font-size:.875rem;font-weight:500;border-bottom:1px solid #0F1420;" data-fr="Comment ça marche" data-en="How it works" data-nl="Hoe het werkt">Comment ça marche</a>
         <a href="#support" style="font-size:.875rem;font-weight:500;color:#94A3B8;transition:color .2s;" onmouseover="this.style.color='#F8FAFC'" onmouseout="this.style.color='#94A3B8'" data-fr="Support" data-en="Support" data-nl="Support">Support</a>
@@ -234,32 +270,22 @@
      HERO
 ═══════════════════════════════════════════════ -->
 <section class="hero-bg" style="min-height:100vh;display:flex;align-items:center;padding-top:64px;">
-  <div style="max-width:1152px;margin:0 auto;padding:80px 24px;display:grid;grid-template-columns:1fr;gap:56px;align-items:center;" class="md:grid-cols-2">
+  <div class="hero-grid" style="max-width:1152px;margin:0 auto;padding:80px 24px;">
 
     <!-- Left: copy -->
     <div>
-      <div class="local-pill" style="margin-bottom:28px;">
-        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#A78BFA" fill-opacity=".6"/><circle cx="4" cy="4" r="1.5" fill="#A78BFA"/></svg>
-        <span data-fr="Traitement 100 % local — zéro cloud" data-en="100% local processing — zero cloud" data-nl="100% lokale verwerking — geen cloud">Traitement 100&nbsp;% local &mdash; zéro cloud</span>
-      </div>
-
-      <h1 class="ff-h" style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.06;letter-spacing:-.035em;margin-bottom:24px;">
-        <span data-fr="Vos documents." data-en="Your documents." data-nl="Uw documenten.">Vos documents.</span><br>
-        <span data-fr="Votre intelligence." data-en="Your intelligence." data-nl="Uw intelligentie.">Votre intelligence.</span><br>
-        <span class="text-grad" data-fr="Votre machine." data-en="Your machine." data-nl="Uw machine.">Votre machine.</span>
+            <h1 class="ff-h" style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.06;letter-spacing:-.035em;margin-bottom:24px;">
+        <span data-fr="Votre secret&lt;br&gt;professionnel" data-en="Your professional&lt;br&gt;secrecy" data-nl="Uw beroepsgeheim">Votre secret<br>professionnel</span><br>
+        <span data-fr="ne passe pas" data-en="doesn’t go" data-nl="hoort niet">ne passe pas</span><br>
+        <span class="t-red" data-fr="par le cloud !" data-en="through the cloud!" data-nl="in de cloud!">par le cloud !</span>
       </h1>
 
-      <p style="font-size:1.0625rem;line-height:1.75;color:#64748B;max-width:44ch;margin-bottom:36px;"
-         data-fr="Sudolex analyse, interroge et synthétise vos documents directement sur votre appareil. Aucune donnée ne quitte votre réseau — confidentialité absolue, performance maximale."
-         data-en="Sudolex analyses, queries and summarises your documents directly on your device. No data ever leaves your network — absolute confidentiality, maximum performance."
-         data-nl="Sudolex analyseert, doorzoekt en vat uw documenten rechtstreeks op uw apparaat samen. Geen enkel gegeven verlaat uw netwerk — absolute vertrouwelijkheid, maximale prestaties.">
-        Sudolex analyse, interroge et synthétise vos documents directement sur votre appareil. Aucune donnée ne quitte votre réseau &mdash; confidentialité absolue, performance maximale.
-      </p>
+      <p style="font-size:1.0625rem;line-height:1.75;color:#64748B;max-width:46ch;margin-bottom:36px;" data-fr="Déposer une pièce dans un assistant d&#x27;IA en ligne, c&#x27;est la confier à des serveurs que vous ne contrôlez pas. &lt;strong style=&quot;color:#CBD5E1;&quot;&gt;La plupart des professionnels l&#x27;ignorent&lt;/strong&gt; : c&#x27;est écrit en petit, dans des conditions d&#x27;utilisation que personne ne lit. Sudolex, lui, analyse vos dossiers sur votre poste — rien ne quitte le cabinet." data-en="Uploading a document to an online AI assistant means handing it to servers you don&#x27;t control. &lt;strong style=&quot;color:#CBD5E1;&quot;&gt;Most professionals don&#x27;t realise it&lt;/strong&gt;: it&#x27;s in the small print of terms nobody reads. Sudolex analyses your case files on your own computer — nothing leaves your firm." data-nl="Wie een stuk uploadt naar een online AI-assistent, vertrouwt het toe aan servers waar hij geen controle over heeft. &lt;strong style=&quot;color:#CBD5E1;&quot;&gt;De meeste professionals weten dit niet&lt;/strong&gt;: het staat in de kleine lettertjes die niemand leest. Sudolex analyseert uw dossiers op uw eigen computer — niets verlaat uw kantoor.">Déposer une pièce dans un assistant d'IA en ligne, c'est la confier à des serveurs que vous ne contrôlez pas. <strong style="color:#CBD5E1;">La plupart des professionnels l'ignorent</strong> : c'est écrit en petit, dans des conditions d'utilisation que personne ne lit. Sudolex, lui, analyse vos dossiers sur votre poste — rien ne quitte le cabinet.</p>
 
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px;">
-        <a href="#telecharger" class="btn-p">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v10M5 9.5l3 3 3-3M2 13.5h12" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-fr="Demander une licence" data-en="Request a licence" data-nl="Een licentie aanvragen">Demander une licence</span>
+        <a href="#risques" class="btn-p" style="background:linear-gradient(135deg,#EF4444,#B91C1C);">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2.5l6 10.5H2L8 2.5z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 7v2.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.2" r=".8" fill="white"/></svg>
+          <span data-fr="Ce que vous acceptez sans le savoir" data-en="What you agree to without knowing" data-nl="Wat u ongemerkt accepteert">Ce que vous acceptez sans le savoir</span>
         </a>
         <a href="https://drive.google.com/file/d/11Ii0cnsH4blLM8Q7FDe4u7zHRbFUEhqh/preview" class="btn-g" target="_blank">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 6c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5C9.5 7.5 8 7.5 8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".8" fill="currentColor"/></svg>
@@ -297,7 +323,7 @@
               </svg>
             </div>
             <span style="font-size:.75rem;font-weight:500;color:#94A3B8;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">rapport_annuel_2024.pdf</span>
-            <span style="font-size:.7rem;padding:2px 7px;border-radius:6px;background:rgba(59,130,246,.12);color:#60A5FA;border:1px solid rgba(59,130,246,.2);flex-shrink:0;" data-fr="local" data-en="local" data-nl="lokaal">local</span>
+            <span style="font-size:.7rem;padding:2px 7px;border-radius:6px;background:rgba(239,68,68,.12);color:#F87171;border:1px solid rgba(239,68,68,.35);flex-shrink:0;margin-right:40px;" data-fr="cloud" data-en="cloud" data-nl="cloud">cloud</span>
           </div>
 
           <!-- Scanning area -->
@@ -324,35 +350,97 @@
               <div style="width:16px;height:16px;border-radius:50%;background:rgba(59,130,246,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <span class="ff-h" style="font-size:.75rem;font-weight:600;color:#38BDF8;" data-fr="Analyse terminée · 2.4s" data-en="Analysis complete · 2.4s" data-nl="Analyse voltooid · 2.4s">Analyse terminée &middot; 2.4s</span>
+              <span class="ff-h" style="font-size:.75rem;font-weight:600;color:#38BDF8;" data-fr="Analysé en ligne · 2.4s" data-en="Analysed online · 2.4s" data-nl="Online geanalyseerd · 2.4s">Analysé en ligne &middot; 2.4s</span>
             </div>
-            <div style="padding:10px 12px;border-radius:10px;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);font-size:.75rem;line-height:1.6;color:#CBD5E1;"
+            <div style="position:relative;">
+              <div style="padding:10px 12px;border-radius:10px;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);font-size:.75rem;line-height:1.6;color:#CBD5E1;"
                  data-fr="&quot;Le CA a progressé de 18 % en T3, porté par les marchés européens…&quot;"
                  data-en="&quot;Revenue grew 18% in Q3, driven by European markets…&quot;"
                  data-nl="&quot;De omzet groeide met 18% in Q3, gedreven door de Europese markten…&quot;">
               "Le CA a progressé de 18&nbsp;% en T3, porté par les marchés européens&hellip;"
+            </div>
+              <div class="stamp" data-fr="Données&lt;br&gt;compromises" data-en="Data&lt;br&gt;compromised" data-nl="Gegevens&lt;br&gt;gecompromitteerd">Données<br>compromises</div>
             </div>
           </div>
 
           <!-- Lock badge -->
           <div style="position:absolute;top:20px;right:20px;">
             <div style="position:relative;width:32px;height:32px;">
-              <div style="position:absolute;inset:0;border-radius:50%;animation:pulseRing 2.8s ease-out .4s infinite;border:1px solid rgba(139,92,246,.5);"></div>
-              <div style="width:32px;height:32px;border-radius:50%;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.5);display:flex;align-items:center;justify-content:center;">
+              <div style="position:absolute;inset:0;border-radius:50%;animation:pulseRing 2.8s ease-out .4s infinite;border:1px solid rgba(239,68,68,.55);"></div>
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.55);display:flex;align-items:center;justify-content:center;">
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                  <rect x="2.5" y="5.5" width="8" height="6.5" rx="1.5" stroke="#A78BFA" stroke-width="1.3"/>
-                  <path d="M4.5 5.5V4a2 2 0 014 0v1.5" stroke="#A78BFA" stroke-width="1.3" stroke-linecap="round"/>
-                  <circle cx="6.5" cy="8.75" r=".9" fill="#A78BFA"/>
+                  <rect x="2.5" y="5.5" width="8" height="6.5" rx="1.5" stroke="#F87171" stroke-width="1.3"/>
+                  <path d="M4.5 5.5V3.6a2 2 0 013.9-.6" stroke="#F87171" stroke-width="1.3" stroke-linecap="round"/>
+                  <circle cx="6.5" cy="8.75" r=".9" fill="#F87171"/>
                 </svg>
               </div>
             </div>
           </div>
 
         </div>
-        <p style="text-align:center;margin-top:12px;font-size:.75rem;color:#475569;" data-fr="Aucune donnée ne quitte votre machine" data-en="No data ever leaves your machine" data-nl="Geen enkel gegeven verlaat uw machine">Aucune donnée ne quitte votre machine</p>
+        <p style="text-align:center;margin-top:12px;font-size:.75rem;color:#F87171;" data-fr="Ce document vient de quitter votre cabinet." data-en="This document just left your firm." data-nl="Dit document heeft zojuist uw kantoor verlaten.">Ce document vient de quitter votre cabinet.</p>
       </div>
     </div>
 
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     RISQUES DU CLOUD + SOLUTION
+═══════════════════════════════════════════════ -->
+<section id="risques" style="padding:96px 0;background:#0B0F1A;border-top:1px solid #1A2440;">
+  <div style="max-width:1152px;margin:0 auto;padding:0 24px;">
+
+    <div style="text-align:center;margin-bottom:56px;">
+      <span class="ff-h" style="display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#EF4444;margin-bottom:12px;" data-fr="Ce que vous acceptez sans le savoir" data-en="What you agree to without knowing" data-nl="Wat u ongemerkt accepteert">Ce que vous acceptez sans le savoir</span>
+      <h2 class="ff-h" style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:16px;" data-fr="Ce qui se passe &lt;span class=&#x27;t-red&#x27;&gt;dans le cloud&lt;/span&gt;" data-en="What happens &lt;span class=&#x27;t-red&#x27;&gt;in the cloud&lt;/span&gt;" data-nl="Wat er gebeurt &lt;span class=&#x27;t-red&#x27;&gt;in de cloud&lt;/span&gt;">Ce qui se passe <span class="t-red">dans le cloud</span></h2>
+      <p style="font-size:1rem;color:#64748B;max-width:56ch;margin:0 auto;line-height:1.7;" data-fr="Ces outils sont pratiques. Mais pour une profession tenue au secret, chacun de ces points est un risque." data-en="These tools are convenient. But for a profession bound by secrecy, each of these points is a risk." data-nl="Deze tools zijn handig. Maar voor een beroep met geheimhoudingsplicht is elk van deze punten een risico.">Ces outils sont pratiques. Mais pour une profession tenue au secret, chacun de ces points est un risque.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
+      <div class="risk-card">
+        <div class="risk-num">01</div>
+        <h3 class="ff-h" style="font-size:1.15rem;font-weight:600;margin-bottom:10px;line-height:1.3;" data-fr="Vos échanges peuvent entraîner les modèles" data-en="Your conversations can train the models" data-nl="Uw gesprekken kunnen de modellen trainen">Vos échanges peuvent entraîner les modèles</h3>
+        <p style="font-size:.875rem;line-height:1.7;color:#94A3B8;" data-fr="Sur les offres grand public, les conversations servent par défaut à améliorer les modèles d&#x27;IA." data-en="On consumer plans, conversations are used by default to improve AI models." data-nl="Bij consumentenabonnementen worden gesprekken standaard gebruikt om AI-modellen te verbeteren.">Sur les offres grand public, les conversations servent par défaut à améliorer les modèles d'IA.</p>
+      </div>
+      <div class="risk-card">
+        <div class="risk-num">02</div>
+        <h3 class="ff-h" style="font-size:1.15rem;font-weight:600;margin-bottom:10px;line-height:1.3;" data-fr="Hébergé en Europe ne veut pas dire protégé" data-en="Hosted in Europe doesn&#x27;t mean protected" data-nl="Gehost in Europa betekent niet beschermd">Hébergé en Europe ne veut pas dire protégé</h3>
+        <p style="font-size:.875rem;line-height:1.7;color:#94A3B8;" data-fr="Le Cloud Act oblige les fournisseurs américains à remettre les données demandées par la justice des États-Unis, où qu&#x27;elles soient stockées." data-en="The US CLOUD Act requires American providers to hand over data requested by US authorities, wherever it is stored." data-nl="De Amerikaanse CLOUD Act verplicht Amerikaanse aanbieders gegevens af te staan aan de Amerikaanse autoriteiten, waar ze ook zijn opgeslagen.">Le Cloud Act oblige les fournisseurs américains à remettre les données demandées par la justice des États-Unis, où qu'elles soient stockées.</p>
+      </div>
+      <div class="risk-card">
+        <div class="risk-num">03</div>
+        <h3 class="ff-h" style="font-size:1.15rem;font-weight:600;margin-bottom:10px;line-height:1.3;" data-fr="Votre messagerie grande ouverte" data-en="Your inbox, wide open" data-nl="Uw mailbox wagenwijd open">Votre messagerie grande ouverte</h3>
+        <p style="font-size:.875rem;line-height:1.7;color:#94A3B8;" data-fr="Connecter un assistant d&#x27;IA à sa boîte mail lui donne accès à toute la correspondance du cabinet — pas seulement aux pièces choisies." data-en="Connecting an AI assistant to your mailbox gives it access to all of the firm&#x27;s correspondence — not just the documents you chose." data-nl="Wie een AI-assistent aan zijn mailbox koppelt, geeft toegang tot alle correspondentie van het kantoor — niet alleen tot de gekozen stukken.">Connecter un assistant d'IA à sa boîte mail lui donne accès à toute la correspondance du cabinet — pas seulement aux pièces choisies.</p>
+      </div>
+      <div class="risk-card">
+        <div class="risk-num">04</div>
+        <h3 class="ff-h" style="font-size:1.15rem;font-weight:600;margin-bottom:10px;line-height:1.3;" data-fr="« Anonymisé » ne suffit pas" data-en="“Anonymised” isn&#x27;t enough" data-nl="„Geanonimiseerd” is niet genoeg">« Anonymisé » ne suffit pas</h3>
+        <p style="font-size:.875rem;line-height:1.7;color:#94A3B8;" data-fr="Au sens du RGPD, des données pseudonymisées restent personnelles. Sur un petit territoire, un dossier suffit souvent à identifier une personne." data-en="Under the GDPR, pseudonymised data is still personal data. On a small island, a single case file is often enough to identify someone." data-nl="Volgens de AVG blijven gepseudonimiseerde gegevens persoonsgegevens. Op een klein eiland volstaat één dossier vaak om iemand te herkennen.">Au sens du RGPD, des données pseudonymisées restent personnelles. Sur un petit territoire, un dossier suffit souvent à identifier une personne.</p>
+      </div>
+    </div>
+
+    <div class="sol-band">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:16px;">
+        <span class="ff-h" style="font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#A78BFA;" data-fr="La solution" data-en="The solution" data-nl="De oplossing">La solution</span>
+        <div class="local-pill" style="">
+        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#A78BFA" fill-opacity=".6"/><circle cx="4" cy="4" r="1.5" fill="#A78BFA"/></svg>
+        <span data-fr="Traitement 100 % local — zéro cloud" data-en="100% local processing — zero cloud" data-nl="100% lokale verwerking — geen cloud">Traitement 100&nbsp;% local &mdash; zéro cloud</span>
+      </div>
+      </div>
+      <h2 class="ff-h" style="font-size:clamp(1.6rem,3.4vw,2.25rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:16px;" data-fr="Sudolex : l&#x27;IA juridique qui &lt;span class=&#x27;text-grad&#x27;&gt;respecte votre secret professionnel.&lt;/span&gt;" data-en="Sudolex: the legal AI that &lt;span class=&#x27;text-grad&#x27;&gt;respects your professional secrecy.&lt;/span&gt;" data-nl="Sudolex: de juridische AI die &lt;span class=&#x27;text-grad&#x27;&gt;uw beroepsgeheim respecteert.&lt;/span&gt;">Sudolex : l'IA juridique qui <span class="text-grad">respecte votre secret professionnel.</span></h2>
+      <p style="font-size:1rem;line-height:1.75;color:#94A3B8;max-width:72ch;margin-bottom:28px;" data-fr="Installé sur votre poste, Sudolex fonctionne sans connexion Internet. &lt;strong style=&quot;color:#F1F5F9;&quot;&gt;Aucun document ni aucune donnée n&#x27;est transmis à l&#x27;extérieur, y compris à l&#x27;éditeur&lt;/strong&gt; : ni cloud, ni télémétrie. Les mises à jour vous sont proposées — c&#x27;est vous qui décidez de les installer." data-en="Installed on your computer, Sudolex works without an Internet connection. &lt;strong style=&quot;color:#F1F5F9;&quot;&gt;No document and no data is sent outside — not even to the publisher&lt;/strong&gt;: no cloud, no telemetry. Updates are offered to you — you decide when to install them." data-nl="Sudolex wordt op uw computer geïnstalleerd en werkt zonder internetverbinding. &lt;strong style=&quot;color:#F1F5F9;&quot;&gt;Geen enkel document en geen enkel gegeven gaat naar buiten — ook niet naar de uitgever&lt;/strong&gt;: geen cloud, geen telemetrie. Updates worden u aangeboden — u beslist zelf wanneer u ze installeert.">Installé sur votre poste, Sudolex fonctionne sans connexion Internet. <strong style="color:#F1F5F9;">Aucun document ni aucune donnée n'est transmis à l'extérieur, y compris à l'éditeur</strong> : ni cloud, ni télémétrie. Les mises à jour vous sont proposées — c'est vous qui décidez de les installer.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;">
+        <div class="stat-box"><div class="stat-v" style="color:#38BDF8;">0</div><div style="font-size:.8125rem;color:#94A3B8;margin-top:8px;line-height:1.5;" data-fr="donnée transmise hors du cabinet" data-en="data sent outside the firm" data-nl="gegevens die het kantoor verlaten">donnée transmise hors du cabinet</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:#38BDF8;">100 %</div><div style="font-size:.8125rem;color:#94A3B8;margin-top:8px;line-height:1.5;" data-fr="local, fonctionne hors connexion" data-en="local, works fully offline" data-nl="lokaal, werkt volledig offline">local, fonctionne hors connexion</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:#38BDF8;" data-fr="Zéro" data-en="Zero" data-nl="Nul">Zéro</div><div style="font-size:.8125rem;color:#94A3B8;margin-top:8px;line-height:1.5;" data-fr="serveur à pirater : rien n&#x27;est exposé en ligne" data-en="servers to hack: nothing is exposed online" data-nl="servers om te hacken: niets staat online">serveur à pirater : rien n'est exposé en ligne</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:#A78BFA;">&lt; 1 h</div><div style="font-size:.8125rem;color:#94A3B8;margin-top:8px;line-height:1.5;" data-fr="objectif de réponse du support, depuis Saint-Martin" data-en="support response target, from Saint-Martin" data-nl="streeftijd voor reactie van support, vanuit Sint Maarten">objectif de réponse du support, depuis Saint-Martin</div></div>
+      </div>
+      <p style="font-size:.8125rem;color:#64748B;margin-top:24px;letter-spacing:.06em;text-transform:uppercase;" data-fr="Vos documents · Votre intelligence · Votre machine" data-en="Your documents · Your intelligence · Your machine" data-nl="Uw documenten · Uw intelligentie · Uw machine">Vos documents · Votre intelligence · Votre machine</p>
+    </div>
+
+    <p style="font-size:.7rem;color:#475569;line-height:1.6;margin-top:28px;text-align:center;max-width:90ch;margin-left:auto;margin-right:auto;" data-fr="Sources : conditions et politiques de confidentialité des principaux assistants d&#x27;IA grand public (2026) · CLOUD Act, loi fédérale américaine (2018) · audition de Microsoft France devant le Sénat (juin 2025) · RGPD, considérant 26 · guide déontologique du Conseil national des barreaux sur l&#x27;IA générative (17 mars 2026)." data-en="Sources: terms of use and privacy policies of the main consumer AI assistants (2026) · CLOUD Act, US federal law (2018) · Microsoft France hearing before the French Senate (June 2025) · GDPR, Recital 26 · French National Bar Council (CNB) ethics guide on generative AI (17 March 2026)." data-nl="Bronnen: gebruiksvoorwaarden en privacybeleid van de belangrijkste AI-assistenten voor consumenten (2026) · CLOUD Act, Amerikaanse federale wet (2018) · hoorzitting van Microsoft Frankrijk in de Franse Senaat (juni 2025) · AVG, overweging 26 · deontologische gids over generatieve AI van de Franse Nationale Orde van Advocaten, CNB (17 maart 2026).">Sources : conditions et politiques de confidentialité des principaux assistants d'IA grand public (2026) · CLOUD Act, loi fédérale américaine (2018) · audition de Microsoft France devant le Sénat (juin 2025) · RGPD, considérant 26 · guide déontologique du Conseil national des barreaux sur l'IA générative (17 mars 2026).</p>
   </div>
 </section>
 
@@ -755,12 +843,12 @@
 <script>
   // ── Traductions des éléments hors data-attributs (title + meta description) ──
   var META_I18N = {
-    fr: { title: "Sudolex — Intelligence Documentaire Locale",
-          desc: "Sudolex analyse vos documents en local, sans cloud. Interrogez, synthétisez et extrayez l'information de vos PDF, Word et Excel en toute confidentialité." },
-    en: { title: "Sudolex — Local Document Intelligence",
-          desc: "Sudolex analyses your documents locally, no cloud. Query, summarise and extract information from your PDF, Word and Excel files in complete confidentiality." },
-    nl: { title: "Sudolex — Lokale Documentintelligentie",
-          desc: "Sudolex analyseert uw documenten lokaal, zonder cloud. Doorzoek, vat samen en haal informatie uit uw PDF-, Word- en Excel-bestanden in volledige vertrouwelijkheid." }
+    fr: { title: "Sudolex — L'IA juridique 100 % locale : le secret professionnel ne passe pas par le cloud",
+          desc: "Les assistants d'IA en ligne envoient vos pièces sur des serveurs que vous ne contrôlez pas. Sudolex analyse vos dossiers 100 % en local, sans Internet : rien ne quitte le cabinet." },
+    en: { title: "Sudolex — 100% local legal AI: professional secrecy doesn't go through the cloud",
+          desc: "Online AI assistants send your files to servers you don't control. Sudolex analyses your case files 100% locally, offline: nothing leaves your firm." },
+    nl: { title: "Sudolex — 100% lokale juridische AI: het beroepsgeheim hoort niet in de cloud",
+          desc: "Online AI-assistenten sturen uw stukken naar servers waar u geen controle over heeft. Sudolex analyseert uw dossiers 100% lokaal, offline: niets verlaat uw kantoor." }
   };
 
   function setLang(lang) {
@@ -799,8 +887,5 @@
   })();
 </script>
 
-    <!-- GoatCounter — statistiques de visite (sans cookie, respect de la vie privée) -->
-    <script data-goatcounter="https://sudolex.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
