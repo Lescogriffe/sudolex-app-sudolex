@@ -827,7 +827,7 @@
     <h2 class="ff-h" style="font-size:clamp(1.6rem,3.5vw,2.1rem);font-weight:700;letter-spacing:-.02em;margin-bottom:40px;color:#F1F5F9;"
         data-fr="Mentions légales" data-en="Legal notice" data-nl="Wettelijke vermeldingen">Mentions légales</h2>
 
-    <div style="display:flex;flex-direction:column;gap:28px;font-size:.875rem;line-height:1.75;color:#94A3B8;">
+    <div id="mentions-legales-content" style="display:none;flex-direction:column;gap:28px;font-size:.875rem;line-height:1.75;color:#94A3B8;">
 
       <div>
         <h3 class="ff-h" style="font-size:.9rem;font-weight:600;color:#F1F5F9;margin-bottom:8px;"
@@ -1003,6 +1003,21 @@
     var nav = (navigator.language || 'fr').slice(0, 2);
     setLang(saved || (META_I18N[nav] ? nav : 'fr'));
   })();
+</script>
+
+<!-- Bascule d'affichage des mentions légales : masquées par défaut, affichées au clic sur "Mentions légales" ou "Confidentialité" -->
+<script>
+  function showMentionsLegales() {
+    var content = document.getElementById('mentions-legales-content');
+    if (content) content.style.display = 'flex';
+  }
+  document.querySelectorAll('a[href="#mentions-legales"], a[href="#confidentialite"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      showMentionsLegales();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
 </script>
 
 </body>
